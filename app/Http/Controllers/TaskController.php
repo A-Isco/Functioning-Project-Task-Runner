@@ -36,6 +36,7 @@ class TaskController extends Controller
         // $value = Task::where('task_id', $taskID)->get('occurrences');
         // // $new_value = 
         // echo gettype($value[0]->{'occurrences'});
+        echo " Thanks " ;
     
     }
 

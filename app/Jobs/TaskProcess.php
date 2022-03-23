@@ -24,13 +24,17 @@ class TaskProcess implements ShouldQueue
 
     // $line ;
 
+    public $task_id ;
+
    
     
     
 
-    public function __construct()
+    public function __construct($task_id)
     {
+        
         // this->$line = $line ;
+        $this->task_id = $task_id ; 
         
     }
 
@@ -49,7 +53,8 @@ class TaskProcess implements ShouldQueue
 
     public function lineCountToDb()
     {
-        $taskID = "OUQyfUYzrNbltOHe10ajgjH6I8ugh0" ;
+        $taskID = $this->task_id ;
+        // $taskID = "OUQyfUYzrNbltOHe10ajgjH6I8ugh0" ;
         // $cureent_occurence = 8 ;
         // $cureent_occurence = Task::select('occurrences')->where('task_id', '=',$taskID ) ;
         // $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
