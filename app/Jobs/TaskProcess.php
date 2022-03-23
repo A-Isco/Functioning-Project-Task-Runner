@@ -8,13 +8,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 use App\Models\Task;
 use App\Models\Project;
-
+use Illuminate\Bus\Batchable;
 
 class TaskProcess implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use  Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
@@ -51,17 +52,30 @@ class TaskProcess implements ShouldQueue
 
     }
 
+    
+    public function failed(Throwable $exception)
+    {
+        // Send user notification of failure, etc...
+    }
+
+
+
+
+
+
+
+
     public function lineCountToDb()
     {
         $taskID = $this->task_id ;
+        $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
+        $new_occurence = ($cureent_occurence[0]->{'occurrences'}) + 1;
+        Task::where('task_id', $taskID)->update(['occurrences' => $new_occurence]);
         // $taskID = "OUQyfUYzrNbltOHe10ajgjH6I8ugh0" ;
         // $cureent_occurence = 8 ;
         // $cureent_occurence = Task::select('occurrences')->where('task_id', '=',$taskID ) ;
         // $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
         // $updatedvalue = $cureent_occurence + 1 ;
-        $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
-        $new_occurence = ($cureent_occurence[0]->{'occurrences'}) + 1;
-        Task::where('task_id', $taskID)->update(['occurrences' => $new_occurence]);
         // Task::where('task_id', $taskID)->update(array('result' => "wo"));
         // Task::where('project_id', 'qq')->update(['result' => 'worked']);
         // Project::create([

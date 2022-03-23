@@ -8,6 +8,7 @@ use App\Models\Project;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 
 class TaskController extends Controller
 {
@@ -22,6 +23,7 @@ class TaskController extends Controller
         $project_id = $request->project_id ;
         $task_type = $request->task_type ; 
         $file = 'file.txt';
+
         // $file_uploaded = $request->file('file')->store('public');
    
         // ---------- store in Project table -----------------
@@ -36,7 +38,7 @@ class TaskController extends Controller
         // $value = Task::where('task_id', $taskID)->get('occurrences');
         // // $new_value = 
         // echo gettype($value[0]->{'occurrences'});
-        echo " Thanks " ;
+        // echo " Thanks " ;
     
     }
 
@@ -72,15 +74,21 @@ class TaskController extends Controller
         // $count_line = 0 ; 
         // Open file handler
         $fh = fopen($file, "r");
+
+        $batch = Bus::batch([])->dispatch();
         // Read line by line
         while(($line=fgets($fh))!==false) {
-            TaskProcess::dispatch($task_id) ;
+
+            $batch->add(new TaskProcess($task_id) ) ;
+            // TaskProcess::dispatch($task_id) ;
             // $count_line ++ ;
             
         }
         // Close file handler
         
         fclose($fh) ;
+
+        return $batch ;
         // echo $count_line ;
     }
 
