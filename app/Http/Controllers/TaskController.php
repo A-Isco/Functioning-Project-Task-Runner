@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\TaskProcess;
 use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Support\Str;
@@ -24,16 +25,17 @@ class TaskController extends Controller
         // $file_uploaded = $request->file('file')->store('public');
    
         // ---------- store in Project table -----------------
-        // self::storeProject($project_id) ;
+        self::storeProject($project_id) ;
 
         // ----------------- store in Task table -----------------
-        // self::storeTask($project_id , $task_type) ;
+        $task_id = self::storeTask($project_id , $task_type) ;
 
         // ----------------- store in Task table -----------------
-        //  self::countLines($file) ;
-
-         self::countWords($file) ;
-
+         self::countLines($file,$task_id) ;
+        // $taskID = "OUQyfUYzrNbltOHe10ajgjH6I8ugh0" ;
+        // $value = Task::where('task_id', $taskID)->get('occurrences');
+        // // $new_value = 
+        // echo gettype($value[0]->{'occurrences'});
     
     }
 
@@ -60,27 +62,47 @@ class TaskController extends Controller
                     'task_type' => $task_type ,
                      'task_id' => $task_id ,
                  ])  ;
+
+                 return $task_id ;
     }
 
     // ------------- read file line by line -------------
-    public function countLines($file) {
-        $count_line = 0 ; 
+    public function countLines($file,$task_id) {
+        // $count_line = 0 ; 
         // Open file handler
         $fh = fopen($file, "r");
         // Read line by line
         while(($line=fgets($fh))!==false) {
-            $count_line ++ ;
-            // dispatch job (reading line and update progress and dbis a single job )
-            // we will pass the line as a parameter to the job 
-            // maybe we will need also to pas the task_id to be able to update that specefic task in the db
+            TaskProcess::dispatch($task_id) ;
+            // $count_line ++ ;
+            
         }
         // Close file handler
+        
         fclose($fh) ;
-
-        echo $count_line ;
+        // echo $count_line ;
     }
 
+    // OG Copy of the fn
+    // public function countLines($file) {
+    //     $count_line = 0 ; 
+    //     // Open file handler
+    //     $fh = fopen($file, "r");
+    //     // Read line by line
+    //     while(($line=fgets($fh))!==false) {
+    //         $count_line ++ ;
+    //         // dispatch job (reading line and update progress and dbis a single job )
+    //         // we will pass the line as a parameter to the job 
+    //         // maybe we will need also to pas the task_id to be able to update that specefic task in the db
+    //     }
+    //     // Close file handler
+    //     fclose($fh) ;
+
+    //     echo $count_line ;
+    // }
+
     // ------------- read file line by line -------------
+    
     public function countWords($file) {
         $count_words = 0 ; 
         // Open file handler

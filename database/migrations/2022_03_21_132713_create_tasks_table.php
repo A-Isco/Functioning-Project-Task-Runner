@@ -23,7 +23,7 @@ class CreateTasksTable extends Migration
             $table->foreign("project_id")->references("project_id")->on("projects");
 
             $table->string("task_type",50);
-            $table->string("occurrences",50)->default("-");
+            $table->string("occurrences",50)->default("-");; // want it to be integer but giving error
             $table->string("result",50)->default("-");
             $table->dateTime("started_at")->default(now());
             $table->dateTime("ended_at")->default(now());
