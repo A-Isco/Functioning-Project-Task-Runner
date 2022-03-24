@@ -58,7 +58,33 @@ class TaskProcess implements ShouldQueue
     {
         $task_type = $this->task_type;
 
+        // send started time to db
+        self::updateStartedDateToDb();
+
+        // Checking for task type and invoke the suitable method
+
         if($task_type == "Count lines") {
+            self::lineCountToDb() ;
+        }
+        
+        if($task_type == "Count words") {
+            self::wordsCountToDb() ;
+        }
+
+        if($task_type == "Count characters") {
+            self::charactersCountToDb();
+        }
+        
+        // updating progress and occurrences line by line
+        self::updateProgressToDb();
+
+       // send finished time to db
+        self::updateFinishedDateToDb();
+
+
+
+
+    /*    if($task_type == "Count lines") {
         self::updateStartedDateToDb();
         self::lineCountToDb() ;
         // self::wordsCountToDb() ;
@@ -83,6 +109,7 @@ class TaskProcess implements ShouldQueue
                 self::updateFinishedDateToDb();
                 }
 
+                */
         // self::updateStartedDateToDb();
         // // self::lineCountToDb() ;
         // self::wordsCountToDb() ;
