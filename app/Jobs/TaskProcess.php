@@ -30,17 +30,21 @@ class TaskProcess implements ShouldQueue
 
     public $task_id ;
     public $batch_id ;
+    public $line ;
+    public $task_type ;
 
    
     
     
 
-    public function __construct($task_id,$batch_id)
+    public function __construct($task_id,$batch_id,$line,$task_type)
     {
         
         // this->$line = $line ;
         $this->task_id = $task_id ; 
         $this->batch_id= $batch_id ; 
+        $this->line= $line ; 
+        $this->task_type= $task_type ; 
         
     }
 
@@ -52,11 +56,29 @@ class TaskProcess implements ShouldQueue
         
     public function handle()
     {
+        $task_type = $this->task_type;
+
+        if($task_type == "Count lines") {
         self::updateStartedDateToDb();
         self::lineCountToDb() ;
+        // self::wordsCountToDb() ;
         self::updateProgressToDb();
-
         self::updateFinishedDateToDb();
+        }
+
+        if($task_type == "Count words") {
+            self::updateStartedDateToDb();
+            // self::lineCountToDb() ;
+            self::wordsCountToDb() ;
+            self::updateProgressToDb();
+            self::updateFinishedDateToDb();
+            }
+
+        // self::updateStartedDateToDb();
+        // // self::lineCountToDb() ;
+        // self::wordsCountToDb() ;
+        // self::updateProgressToDb();
+        // self::updateFinishedDateToDb();
 
     }
 
@@ -79,17 +101,22 @@ class TaskProcess implements ShouldQueue
         $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
         $new_occurence = ($cureent_occurence[0]->{'occurrences'}) + 1;
         Task::where('task_id', $taskID)->update(['occurrences' => $new_occurence]);
-        // $taskID = "OUQyfUYzrNbltOHe10ajgjH6I8ugh0" ;
-        // $cureent_occurence = 8 ;
-        // $cureent_occurence = Task::select('occurrences')->where('task_id', '=',$taskID ) ;
-        // $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
-        // $updatedvalue = $cureent_occurence + 1 ;
-        // Task::where('task_id', $taskID)->update(array('result' => "wo"));
-        // Task::where('project_id', 'qq')->update(['result' => 'worked']);
-        // Project::create([
-        //     'project_id' => "test4" ,
-        // ]);
    }
+
+
+   public function wordsCountToDb()
+   {
+       $taskID = $this->task_id ;
+       $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
+       $new_occurence = ($cureent_occurence[0]->{'occurrences'}) + str_word_count($this->line);
+       Task::where('task_id', $taskID)->update(['occurrences' => $new_occurence]);
+  }
+
+
+
+
+
+
 
    public function updateProgressToDb() {
 
@@ -97,7 +124,6 @@ class TaskProcess implements ShouldQueue
     $batch_id = $this->batch_id ;
     $batch = Bus::findBatch($batch_id);
     $progress = $batch->progress();
-    // $int_progress = intval($progress) ;
     
     Task::where('task_id', $taskID)->update(['result' => intval($progress)]);
 
@@ -109,13 +135,9 @@ class TaskProcess implements ShouldQueue
     $batch_id = $this->batch_id ;
     $batch = Bus::findBatch($batch_id); 
     $finished_at = $batch->{'finishedAt'} ;
-    // $is_finished = $batch->finished();
-    $val = 5 ;
-    // Task::where('task_id', $taskID)->update(['ended_at' => $val]);
     $progress = $batch->progress();
 
     if($progress == 100) {
-        // $taskID = $this->task_id ;
         Task::where('task_id', $taskID)->update(['ended_at' => Carbon::now() ]);
     }
 }
@@ -128,13 +150,11 @@ public function updateStartedDateToDb() {
     $processedJobs = $batch->processedJobs();
 
     if($processedJobs == 1) {
-        // $taskID = $this->task_id ;
         Task::where('task_id', $taskID)->update(['started_at' => Carbon::now() ]);
     }
 }
 
 
- // Started at
 
 
 

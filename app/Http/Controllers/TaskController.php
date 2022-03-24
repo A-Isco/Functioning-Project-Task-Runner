@@ -39,9 +39,9 @@ class TaskController extends Controller
 
 
         // $is_finished =  self::countLines($file,$task_id) ;
-        $batch_id =  self::countLines($file,$task_id) ;
+        $batch_id =  self::count($file,$task_id,$task_type) ;
         $batch = Bus::findBatch($batch_id); 
-        return  $batch ;
+        return  $batch  ;
         // return  $batch->{'fi'} ;
         // return  gettype($batch->{'finishedAt'}) ;
         // $value = Task::where('task_id', $taskID)->get('occurrences');
@@ -79,7 +79,7 @@ class TaskController extends Controller
     }
 
     // ------------- read file line by line -------------
-    public function countLines($file,$task_id) {
+    public function count($file,$task_id,$task_type) {
         // $count_line = 0 ; 
         // Open file handler
         $fh = fopen($file, "r");
@@ -89,7 +89,7 @@ class TaskController extends Controller
         // Read line by line
         while(($line=fgets($fh))!==false) {
 
-            $batch->add(new TaskProcess($task_id,$batch_id) ) ;
+            $batch->add(new TaskProcess($task_id,$batch_id,$line,$task_type) ) ;
             // TaskProcess::dispatch($task_id) ;
             // $count_line ++ ;
             
