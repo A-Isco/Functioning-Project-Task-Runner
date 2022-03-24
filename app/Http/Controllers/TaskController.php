@@ -9,16 +9,18 @@ use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use Carbon\Carbon ;
+
 
 class TaskController extends Controller
 {
 
-    // go to create task view
+    // Go to create task view
     public function create() {
         return view("task.create");
     }
 
-    // store task in db
+    // Store task in db
     public function store(Request $request) {
         $project_id = $request->project_id ;
         $task_type = $request->task_type ; 
@@ -33,16 +35,20 @@ class TaskController extends Controller
         // ----------------- store in Task table -----------------
         $task_id = self::storeTask($project_id , $task_type) ;
 
-        // ----------------- store in Task table -----------------
-        //  self::countLines($file,$task_id) ;
+        // ----------------- Failed Task for empty file -----------------
+        self::checkForEmptyFile($file,$task_id) ;
+
+        // ----------------- Invoke count function -----------------
+        self::count($file,$task_id,$task_type) ;
+
 
 
 
         // $is_finished =  self::countLines($file,$task_id) ;
-        $batch_id =  self::count($file,$task_id,$task_type) ;
-        $batch = Bus::findBatch($batch_id); 
+        // $batch_id =  self::count($file,$task_id,$task_type) ;
+        // $batch = Bus::findBatch($batch_id); 
         // return  $batch  ;
-        return  $task_type  ;
+        // return  $task_type  ;
         // return  $batch->{'fi'} ;
         // return  gettype($batch->{'finishedAt'}) ;
         // $value = Task::where('task_id', $taskID)->get('occurrences');
@@ -54,11 +60,9 @@ class TaskController extends Controller
 
     
 
-    // ------------- Store in Project table -------------
+    // ------------- fn to Store in Project table -------------
     private function storeProject($project_id) {
-
         $project = Project::where('project_id',$project_id )->exists() ;
-         
         if (!$project) {
         Project::create([
                  'project_id' => $project_id ,
@@ -67,7 +71,7 @@ class TaskController extends Controller
 
     }
 
-    // ------------- Store in Task table -------------
+    // ------------- fn to Store in Task table -------------
     private function storeTask($project_id , $task_type) {
         $task_id = Str::random(30);
         Task::create([
@@ -79,8 +83,24 @@ class TaskController extends Controller
                  return $task_id ;
     }
 
+   // ------------- fn to check if the file is empty -------------
+   private function checkForEmptyFile($file,$task_id) {
+    if ( 0 == filesize($file) )
+    {
+        Task::where('task_id', $task_id)->update(['ended_at' => Carbon::now() ]);
+        Task::where('task_id', $task_id)->update(['started_at' => Carbon::now() ]);
+        return " Failed Task .. Empty File" ;
+    }
+   }
+   // ------------- fn to send failed task to db -------------
+
+   private function sendFailedTaskToDb($task_id) {
+    Task::where('task_id', $task_id)->update(['ended_at' => Carbon::now() ]);
+    Task::where('task_id', $task_id)->update(['started_at' => Carbon::now() ]);
+   }
+
     // ------------- read file line by line -------------
-    public function count($file,$task_id,$task_type) {
+    private function count($file,$task_id,$task_type) {
         // $count_line = 0 ; 
         // Open file handler
         $fh = fopen($file, "r");
@@ -127,7 +147,7 @@ class TaskController extends Controller
 
     // ------------- read file line by line -------------
     
-    public function countWords($file) {
+    private function countWords($file) {
         $count_words = 0 ; 
         // Open file handler
         $fh = fopen($file, "r");

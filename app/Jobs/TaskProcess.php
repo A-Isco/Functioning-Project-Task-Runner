@@ -81,41 +81,6 @@ class TaskProcess implements ShouldQueue
        // send finished time to db
         self::updateFinishedDateToDb();
 
-
-
-
-    /*    if($task_type == "Count lines") {
-        self::updateStartedDateToDb();
-        self::lineCountToDb() ;
-        // self::wordsCountToDb() ;
-        self::updateProgressToDb();
-        self::updateFinishedDateToDb();
-        }
-
-        if($task_type == "Count words") {
-            self::updateStartedDateToDb();
-            // self::lineCountToDb() ;
-            self::wordsCountToDb() ;
-            self::updateProgressToDb();
-            self::updateFinishedDateToDb();
-            }
-
-        if($task_type == "Count characters") {
-                self::updateStartedDateToDb();
-                // self::lineCountToDb() ;
-                // self::wordsCountToDb() ;
-                self::charactersCountToDb();
-                self::updateProgressToDb();
-                self::updateFinishedDateToDb();
-                }
-
-                */
-        // self::updateStartedDateToDb();
-        // // self::lineCountToDb() ;
-        // self::wordsCountToDb() ;
-        // self::updateProgressToDb();
-        // self::updateFinishedDateToDb();
-
     }
 
 
@@ -131,7 +96,7 @@ class TaskProcess implements ShouldQueue
 
 
 
-    public function lineCountToDb()
+    private function lineCountToDb()
     {
         $taskID = $this->task_id ;
         $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
@@ -140,7 +105,7 @@ class TaskProcess implements ShouldQueue
    }
 
 
-   public function wordsCountToDb()
+   private function wordsCountToDb()
    {
        $taskID = $this->task_id ;
        $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
@@ -148,7 +113,7 @@ class TaskProcess implements ShouldQueue
        Task::where('task_id', $taskID)->update(['occurrences' => $new_occurence]);
   }
 
-  public function charactersCountToDb()
+  private function charactersCountToDb()
   {
       $taskID = $this->task_id ;
       $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
@@ -162,7 +127,7 @@ class TaskProcess implements ShouldQueue
 
 
 
-   public function updateProgressToDb() {
+ private function updateProgressToDb() {
 
     $taskID = $this->task_id ;
     $batch_id = $this->batch_id ;
@@ -173,7 +138,7 @@ class TaskProcess implements ShouldQueue
 
  }
 
- public function updateFinishedDateToDb() {
+ private function updateFinishedDateToDb() {
 
     $taskID = $this->task_id ;
     $batch_id = $this->batch_id ;
@@ -186,7 +151,7 @@ class TaskProcess implements ShouldQueue
     }
 }
 
-public function updateStartedDateToDb() {
+private function updateStartedDateToDb() {
 
     $taskID = $this->task_id ;
     $batch_id = $this->batch_id ;
@@ -197,6 +162,16 @@ public function updateStartedDateToDb() {
         Task::where('task_id', $taskID)->update(['started_at' => Carbon::now() ]);
     }
 }
+
+// ----------- Don't need it , will handled in frontend if occ = 0 -> failed 
+// private function checkFailedTasks() {
+//     $taskID = $this->task_id ;
+//     $number_of_occurence = Task::where('task_id', $taskID)->get('occurrences');
+//     if($number_of_occurence == 0) {
+//         Task::where('task_id', $taskID)->update(['ended_at' => Carbon::now() ]);
+//     }
+
+//    }
 
 
 
