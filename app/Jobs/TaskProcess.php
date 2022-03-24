@@ -12,6 +12,8 @@ use Throwable;
 use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Bus\Batchable;
+use Illuminate\Support\Facades\Bus;
+
 
 class TaskProcess implements ShouldQueue
 {
@@ -26,16 +28,18 @@ class TaskProcess implements ShouldQueue
     // $line ;
 
     public $task_id ;
+    public $batch_id ;
 
    
     
     
 
-    public function __construct($task_id)
+    public function __construct($task_id,$batch_id)
     {
         
         // this->$line = $line ;
         $this->task_id = $task_id ; 
+        $this->batch_id= $batch_id ; 
         
     }
 
@@ -49,10 +53,11 @@ class TaskProcess implements ShouldQueue
     {
         
         self::lineCountToDb() ;
+        self::batchToDb();
 
     }
 
-    
+
     public function failed(Throwable $exception)
     {
         // Send user notification of failure, etc...
@@ -81,9 +86,26 @@ class TaskProcess implements ShouldQueue
         // Project::create([
         //     'project_id' => "test4" ,
         // ]);
-
-
    }
+
+   public function batchToDb() {
+
+    $taskID = $this->task_id ;
+    $batch_id = $this->batch_id ;
+    $batch = Bus::findBatch($batch_id);
+    $progress = $batch->progress();
+    // $int_progress = intval($progress) ;
+    
+    Task::where('task_id', $taskID)->update(['result' => intval($progress)]);
+
+ }
+
+
+
+
+
+
+
         
   }
 

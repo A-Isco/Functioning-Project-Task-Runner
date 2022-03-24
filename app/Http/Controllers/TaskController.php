@@ -23,6 +23,7 @@ class TaskController extends Controller
         $project_id = $request->project_id ;
         $task_type = $request->task_type ; 
         $file = 'file.txt';
+        // $file = 'smallfile.txt';
 
         // $file_uploaded = $request->file('file')->store('public');
    
@@ -34,11 +35,12 @@ class TaskController extends Controller
 
         // ----------------- store in Task table -----------------
          self::countLines($file,$task_id) ;
+        // $progress =  self::countLines($file,$task_id) ;
         // $taskID = "OUQyfUYzrNbltOHe10ajgjH6I8ugh0" ;
         // $value = Task::where('task_id', $taskID)->get('occurrences');
         // // $new_value = 
         // echo gettype($value[0]->{'occurrences'});
-        // echo " Thanks " ;
+        // echo gettype(intval($progress))   ;
     
     }
 
@@ -76,10 +78,11 @@ class TaskController extends Controller
         $fh = fopen($file, "r");
 
         $batch = Bus::batch([])->dispatch();
+        $batch_id = $batch->id ;
         // Read line by line
         while(($line=fgets($fh))!==false) {
 
-            $batch->add(new TaskProcess($task_id) ) ;
+            $batch->add(new TaskProcess($task_id,$batch_id) ) ;
             // TaskProcess::dispatch($task_id) ;
             // $count_line ++ ;
             
@@ -88,7 +91,11 @@ class TaskController extends Controller
         
         fclose($fh) ;
 
-        return $batch ;
+        $batch = Bus::findBatch($batch_id); 
+
+        return $batch->progress();
+        // return $batch_id ;
+
         // echo $count_line ;
     }
 
