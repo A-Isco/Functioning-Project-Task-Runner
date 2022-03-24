@@ -27,6 +27,14 @@ class TaskController extends Controller
         $file = 'midfile.txt';
         // $file = 'smallfile.txt';
 
+        // ----------- Validation -----------
+        // $request -> validate([
+        //     "project_id" => "required | regex : /^(PRJ_[0-9A-Z]{6})$/ " ,
+        //     "task_type" => "required" ,
+        //     "file" => "required" 
+        // ]) ;
+        
+
         // $file_uploaded = $request->file('file')->store('public');
    
         // ---------- store in Project table -----------------

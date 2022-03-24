@@ -31,5 +31,11 @@
         <input type="file" name="file"><br><br>
         <input type="submit" value="Submit">
     </form>
+    <div>
+    <span style="color : red">@error("project_id"){{$message}}@enderror</span><br>
+    <span style="color : red">@error("task_type"){{$message}}@enderror</span><br>
+    <span style="color : red">@error("file"){{$message}}@enderror</span><br>
+
+    </div>
 </body>
 </html>
