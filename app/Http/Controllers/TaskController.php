@@ -41,7 +41,8 @@ class TaskController extends Controller
         // $is_finished =  self::countLines($file,$task_id) ;
         $batch_id =  self::count($file,$task_id,$task_type) ;
         $batch = Bus::findBatch($batch_id); 
-        return  $batch  ;
+        // return  $batch  ;
+        return  $task_type  ;
         // return  $batch->{'fi'} ;
         // return  gettype($batch->{'finishedAt'}) ;
         // $value = Task::where('task_id', $taskID)->get('occurrences');

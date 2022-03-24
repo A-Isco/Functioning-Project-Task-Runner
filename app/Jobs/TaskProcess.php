@@ -74,6 +74,15 @@ class TaskProcess implements ShouldQueue
             self::updateFinishedDateToDb();
             }
 
+        if($task_type == "Count characters") {
+                self::updateStartedDateToDb();
+                // self::lineCountToDb() ;
+                // self::wordsCountToDb() ;
+                self::charactersCountToDb();
+                self::updateProgressToDb();
+                self::updateFinishedDateToDb();
+                }
+
         // self::updateStartedDateToDb();
         // // self::lineCountToDb() ;
         // self::wordsCountToDb() ;
@@ -111,6 +120,14 @@ class TaskProcess implements ShouldQueue
        $new_occurence = ($cureent_occurence[0]->{'occurrences'}) + str_word_count($this->line);
        Task::where('task_id', $taskID)->update(['occurrences' => $new_occurence]);
   }
+
+  public function charactersCountToDb()
+  {
+      $taskID = $this->task_id ;
+      $cureent_occurence = Task::where('task_id', $taskID)->get('occurrences');
+      $new_occurence = ($cureent_occurence[0]->{'occurrences'}) + strlen($this->line);
+      Task::where('task_id', $taskID)->update(['occurrences' => $new_occurence]);
+ }
 
 
 
