@@ -26,7 +26,7 @@ class CreateTasksTable extends Migration
             $table->string("occurrences",50)->default("-");; // want it to be integer but giving error
             $table->string("result",50)->default("-");
             $table->dateTime("started_at")->default(now());
-            $table->dateTime("ended_at")->default(now());
+            $table->dateTime("ended_at")->default(null);
 
             $table->timestamps();
         });

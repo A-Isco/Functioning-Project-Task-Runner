@@ -13,6 +13,7 @@ use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Bus\Batchable;
 use Illuminate\Support\Facades\Bus;
+use Carbon\Carbon ;
 
 
 class TaskProcess implements ShouldQueue
@@ -51,9 +52,11 @@ class TaskProcess implements ShouldQueue
         
     public function handle()
     {
-        
+        self::updateStartedDateToDb();
         self::lineCountToDb() ;
-        self::batchToDb();
+        self::updateProgressToDb();
+
+        self::updateFinishedDateToDb();
 
     }
 
@@ -88,7 +91,7 @@ class TaskProcess implements ShouldQueue
         // ]);
    }
 
-   public function batchToDb() {
+   public function updateProgressToDb() {
 
     $taskID = $this->task_id ;
     $batch_id = $this->batch_id ;
@@ -100,6 +103,38 @@ class TaskProcess implements ShouldQueue
 
  }
 
+ public function updateFinishedDateToDb() {
+
+    $taskID = $this->task_id ;
+    $batch_id = $this->batch_id ;
+    $batch = Bus::findBatch($batch_id); 
+    $finished_at = $batch->{'finishedAt'} ;
+    // $is_finished = $batch->finished();
+    $val = 5 ;
+    // Task::where('task_id', $taskID)->update(['ended_at' => $val]);
+    $progress = $batch->progress();
+
+    if($progress == 100) {
+        // $taskID = $this->task_id ;
+        Task::where('task_id', $taskID)->update(['ended_at' => Carbon::now() ]);
+    }
+}
+
+public function updateStartedDateToDb() {
+
+    $taskID = $this->task_id ;
+    $batch_id = $this->batch_id ;
+    $batch = Bus::findBatch($batch_id); 
+    $processedJobs = $batch->processedJobs();
+
+    if($processedJobs == 1) {
+        // $taskID = $this->task_id ;
+        Task::where('task_id', $taskID)->update(['started_at' => Carbon::now() ]);
+    }
+}
+
+
+ // Started at
 
 
 

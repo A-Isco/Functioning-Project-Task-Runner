@@ -22,7 +22,7 @@ class TaskController extends Controller
     public function store(Request $request) {
         $project_id = $request->project_id ;
         $task_type = $request->task_type ; 
-        $file = 'file.txt';
+        $file = 'midfile.txt';
         // $file = 'smallfile.txt';
 
         // $file_uploaded = $request->file('file')->store('public');
@@ -34,13 +34,20 @@ class TaskController extends Controller
         $task_id = self::storeTask($project_id , $task_type) ;
 
         // ----------------- store in Task table -----------------
-         self::countLines($file,$task_id) ;
-        // $progress =  self::countLines($file,$task_id) ;
-        // $taskID = "OUQyfUYzrNbltOHe10ajgjH6I8ugh0" ;
+        //  self::countLines($file,$task_id) ;
+
+
+
+        // $is_finished =  self::countLines($file,$task_id) ;
+        $batch_id =  self::countLines($file,$task_id) ;
+        $batch = Bus::findBatch($batch_id); 
+        return  $batch ;
+        // return  $batch->{'fi'} ;
+        // return  gettype($batch->{'finishedAt'}) ;
         // $value = Task::where('task_id', $taskID)->get('occurrences');
-        // // $new_value = 
         // echo gettype($value[0]->{'occurrences'});
         // echo gettype(intval($progress))   ;
+        // return  gettype($finished) ;
     
     }
 
@@ -93,8 +100,8 @@ class TaskController extends Controller
 
         $batch = Bus::findBatch($batch_id); 
 
-        return $batch->progress();
-        // return $batch_id ;
+        // return $batch->finished();
+        return $batch_id ;
 
         // echo $count_line ;
     }
