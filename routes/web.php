@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +26,9 @@ Route::get("/projects/show/{project_id}",'App\Http\Controllers\ProjectController
 // Create Task 
 Route::get("/task/create" , 'App\Http\Controllers\TaskController@create')->name("task.create");
 Route::post("/task/store" ,  'App\Http\Controllers\TaskController@store' )->name("task.store");
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

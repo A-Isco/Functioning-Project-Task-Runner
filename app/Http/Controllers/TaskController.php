@@ -24,8 +24,10 @@ class TaskController extends Controller
     public function store(Request $request) {
         $project_id = $request->project_id ;
         $task_type = $request->task_type ; 
-        $file = 'midfile.txt';
-        // $file = 'smallfile.txt';
+        // $file = $request->file ;
+
+        // $file = 'midfile.txt';
+        $file = 'smallfile.txt';
 
         // ----------- Validation -----------
         // $request -> validate([
