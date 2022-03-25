@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
 use Carbon\Carbon ;
-
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -76,6 +76,7 @@ class TaskController extends Controller
         if (!$project) {
         Project::create([
                  'project_id' => $project_id ,
+                 'user_id' => Auth::user()->id ,
              ]);
         }
 

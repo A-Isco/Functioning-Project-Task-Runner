@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class ProjectController extends Controller
 {
 
-
+    
     // get all projects
     public function get_projects () {
 
-         $projects = Project::paginate(2);
+        // Return only user's projects
+         $projects = Project::where('user_id', Auth::user()->id)->paginate(2);
 
          return view('Project.projects', compact('projects'));
         // dd($projects) ; 
+      
     }
 
 

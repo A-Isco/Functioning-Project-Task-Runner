@@ -9,13 +9,16 @@
 </head>
 <body>
     <h1>All Projects</h1>
+
     @foreach ($projects as $project)
 
-    <h3>{{$project->project_id}}</h3>
-    <h4>{{$project->running}}</h4>
-    <a href="{{route('projects.single',$project->project_id)}}">Project page</a>
-    <hr>
+        <h3>{{$project->project_id}}</h3>
+        <h4>{{$project->running}}</h4>
+        <a href="{{route('projects.single',$project->project_id)}}">Project page</a>
+        <hr>
+   
     @endforeach
+
     {{$projects->render()}}
     
 </body>

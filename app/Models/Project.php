@@ -14,6 +14,6 @@ class Project extends Model
     protected $keyType = 'string' ;
 
     protected $fillable =  [
-        'project_id' , 
+        'project_id' , 'user_id'
     ] ;
 }
