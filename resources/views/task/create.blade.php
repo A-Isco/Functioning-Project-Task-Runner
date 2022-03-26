@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Task</title>
+    <link rel="stylesheet" href="{{asset('css/createTask.css')}}">
 </head>
 
 <body>
@@ -35,11 +36,14 @@
    @csrf
    
    <div class="row">
+       <span style="color : red">@error("project_id"){{$message}}@enderror</span><br>
        <label for="project-id" class="title">Project Id:</label>
        <input type="text" id="project-id"  name="project_id" placeholder="Example : PRJ_ABCDEF">
    </div>
 
    <div class="row">
+   <span style="color : red">@error("task_type"){{$message}}@enderror</span><br>
+
  <label for="fname" class="title">Task Type:</label>
    <div class="types-container">
        <div class="type"> <input type="radio" id="task_type" name="task_type" value="Count words" > 
@@ -61,6 +65,8 @@
    </div>
   
    <div class="row">
+   <span style="color : red">@error("file"){{$message}}@enderror</span><br>
+
        <label for="file" class="title">Input File :</label>
    <input type="file" name="file">
    </div>
@@ -68,13 +74,14 @@
    
 <div class="btn-cont">
 
-    <input type="submit" value="Create Task">
+    <input class="view-projects" type="submit" value="Create Task">
+</div>
+
+<div  class="btn-cont">
+    <a class="view-projects" href="{{route('projects.all')}}">View My Projects</a>
 </div>
 </form>
 <div>
-<span style="color : red">@error("project_id"){{$message}}@enderror</span><br>
-<span style="color : red">@error("task_type"){{$message}}@enderror</span><br>
-<span style="color : red">@error("file"){{$message}}@enderror</span><br>
 
 </div>
 
@@ -88,12 +95,8 @@
 
 <style>
 
-body {
-  /* background-color: lightblue; */
-  /* background: rgba(0, 128, 0, 0.2) Green background with 30% opacity */
 
-}
-
+/* 
 .nav-container {
     display: flex;
     flex-direction: row;
@@ -124,9 +127,9 @@ font-size: 20px;}
   transform: translate(-50%, -50%);
   display: flex;
     /* justify-content: center; */
-}
+/* } */
 
-.main-title {
+/* .main-title {
     display: flex;
     justify-content: center;
 }
@@ -187,6 +190,6 @@ input[type="submit"] {
   padding: 12px 20px;
   border: none;
   border-radius: 8px;
-}
+}  */
 
 </style>

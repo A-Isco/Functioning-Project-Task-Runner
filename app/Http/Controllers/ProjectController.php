@@ -16,7 +16,7 @@ class ProjectController extends Controller
 
         $user_id = Auth::user()->id ;
         // Return only user's projects
-         $projects = Project::where('user_id', $user_id)->paginate(2);
+         $projects = Project::where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(2);
 
         foreach ($projects as $project) {
             $last5_count_lines = Task::where('project_id', $project->project_id)->where('task_type', 'Count lines')

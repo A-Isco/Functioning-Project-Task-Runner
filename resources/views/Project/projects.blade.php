@@ -12,6 +12,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{asset('css/projects.css')}}">
+
 </head>
 <body>
 
@@ -36,6 +38,7 @@
   
   <div class="container">
           <h1>All Projects</h1>
+
 
         <div class="table-container">
         <table>
@@ -122,7 +125,9 @@
         <br>
       
         {{$projects->render()}}
+        <a href="{{ route('task.create') }}" class="create-task">Create Task</a>
         </div>
+
 
     
 </body>
@@ -133,7 +138,7 @@
 
 <style>
 
-.container {
+/* .container {
         text-align: center;
     }
 
@@ -234,7 +239,7 @@ font-size: 20px;}
   display: inline-block;
  
 }
-
+ */
 
 /* .loader {
   border: 16px solid #f3f3f3; 

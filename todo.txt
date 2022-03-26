@@ -8,10 +8,13 @@
  **********************
 
 
- 1- creat task view . #done
- 2- nav bar in alll views . #done
- 3- update running project fn . 
- 6- register link in the login page . 
- 4- routes organization .
+ 1- creat task view . #done------------------
+ 2- nav bar in alll views . #done------------------
+ 3- update running project fn . #done------------------
+ 6- register link in the login page . #done------------------
+ 4- routes organization . #done------------------
  5- colored circle map .
- 6- css external .
+ 6- css external . #done------------------
+ 7- uncomment validation create task and make a style for it . **[[IMP]]**
+ 8- order projects asc . #done------------------
+ 9- clear comments

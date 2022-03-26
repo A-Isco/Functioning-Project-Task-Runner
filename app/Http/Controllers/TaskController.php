@@ -29,11 +29,11 @@ class TaskController extends Controller
 
         
         // ----------- Validation -----------
-        // $request -> validate([
-        //     "project_id" => "required | regex : /^(PRJ_[0-9A-Z]{6})$/ " ,
-        //     "task_type" => "required" ,
-        //     "file" => "required" 
-        // ]) ;
+        $request -> validate([
+            "project_id" => "required | regex : /^(PRJ_[0-9A-Z]{6})$/ " ,
+            "task_type" => "required" ,
+            "file" => "required" 
+        ]) ;
         
 
         // $file_uploaded = $request->file('file')->store('public');
@@ -49,6 +49,8 @@ class TaskController extends Controller
 
         // ----------------- Invoke count function -----------------
         self::count($file,$task_id,$task_type) ;
+
+        return redirect()->route('projects.all') ;
 
 
 
@@ -134,7 +136,7 @@ class TaskController extends Controller
         // get(['project_id']);
 
         // return $batch->finished();
-        return  dd($project_id);
+        // return  dd($project_id);
 
         // echo $count_line ;
     }

@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/singleProject.css">
+    <link rel="stylesheet" href="{{asset('css/singleProject.css')}}">
+
+
 </head>
 <body>
 <div class="nav-container">
@@ -73,7 +75,7 @@
 
 <style>
   
-     body {
+     /* body {
       padding: 0px;
       margin: 0;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -144,7 +146,7 @@ font-size: 20px;}
       transform: scale(1.02);
       box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2),
         -1px -1px 8px rgba(0, 0, 0, 0.2);
-    }
+    } */
 
      */
 
