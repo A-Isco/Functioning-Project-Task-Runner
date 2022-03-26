@@ -1,5 +1,6 @@
-- last 5 tasks status of each project .
+- last 5 tasks status of each project . #done
 - front end
+
 - A diagram document describing your software architecture
 - A diagram document describing your hosting strategy
 - Application readme detailing the build procedure

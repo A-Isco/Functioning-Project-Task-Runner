@@ -19,8 +19,27 @@
     @foreach ($projects as $project)
 
         <h3>{{$project->project_id}}</h3>
-        <h4>
+        <div>
 
+
+        <!-- ----------- C-Lines Words ----------------- -->
+
+        <?php $last5_count_words = Task::where('project_id', $project->project_id)->where('task_type', 'Count words')
+            ->orderBy('created_at', 'DESC')->take(5)->get();  ?>
+
+        @foreach ($last5_count_words as $task)
+        
+        <div class=<?php if($task->result == 100) echo "green-dot" ; 
+        if($task->result == 0 && $task->ended_at != null) echo "red-dot" ;
+        if($task->result !== 100 && $task->result !== 0) echo "blue-dot"; // running
+        if($task->started_at == null) echo "yellow-dot" ; // didn't start yet
+        ?>></div> 
+      
+        @endforeach
+
+        <br>
+         <!-- ----------- C-Lines Tasks ----------------- -->
+         
         <?php $last5_count_lines = Task::where('project_id', $project->project_id)->where('task_type', 'Count lines')
             ->orderBy('created_at', 'DESC')->take(5)->get();  ?>
 
@@ -28,20 +47,33 @@
         
         <div class=<?php if($task->result == 100) echo "green-dot" ; 
         if($task->result == 0 && $task->ended_at != null) echo "red-dot" ;
-        if($task->result !== 100 && $task->result !== 0) echo "loader";
-        
+        if($task->result !== 100 && $task->result !== 0) echo "blue-dot"; // running
+        if($task->started_at == null) echo "yellow-dot" ; // didn't start yet
         ?>></div> 
       
-
-
-
-
- 
-                
         @endforeach
-        </h4>
+
+        <br>
+        <!-- ----------- C-Lines Characters ----------------- -->
+        <?php $last5_count_characters = Task::where('project_id', $project->project_id)->where('task_type', 'Count characters')
+            ->orderBy('created_at', 'DESC')->take(5)->get();  ?>
+
+        @foreach ($last5_count_characters as $task)
+        
+        <div class=<?php if($task->result == 100) echo "green-dot" ; 
+        if($task->result == 0 && $task->ended_at != null) echo "red-dot" ;
+        if($task->result !== 100 && $task->result !== 0) echo "blue-dot"; // running
+        if($task->started_at == null) echo "yellow-dot" ; // didn't start yet
+        ?>></div> 
+      
+        @endforeach
+
+        </div>
+
         <h4>{{$project->running}}</h4>
+
         <a href="{{route('projects.single',$project->project_id)}}">Project page</a>
+        
         <hr>
    
     @endforeach
@@ -69,6 +101,23 @@
   display: inline-block;
 
   
+}
+
+.yellow-dot {
+  height: 25px;
+  width: 25px;
+  background-color: yellow;
+  border-radius: 50%;
+  display: inline-block;
+ 
+}
+.blue-dot {
+  height: 25px;
+  width: 25px;
+  background-color: blue;
+  border-radius: 50%;
+  display: inline-block;
+ 
 }
 
 .loader {

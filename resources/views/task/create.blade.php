@@ -30,9 +30,10 @@
     </div>
 </nav>
 
-    <form method="POST" action="{{ route('task.store') }}">
+    <form method="POST" action="{{ route('task.store') }}" enctype="multipart/form-data">
    
         @csrf
+        
         
         <label for="project-id">Project Id:</label><br>
         <input type="text" id="project-id"  name="project_id"><br><br>
@@ -58,7 +59,7 @@
     <span style="color : red">@error("project_id"){{$message}}@enderror</span><br>
     <span style="color : red">@error("task_type"){{$message}}@enderror</span><br>
     <span style="color : red">@error("file"){{$message}}@enderror</span><br>
-
+    
     </div>
 </body>
 </html>

@@ -24,11 +24,10 @@ class TaskController extends Controller
     public function store(Request $request) {
         $project_id = $request->project_id ;
         $task_type = $request->task_type ; 
-        // $file = $request->file('file') ;
+        $file = $request->file('file') ;
 
-        $file = 'midfile.txt';
-        // $file = 'smallfile.txt';
 
+        
         // ----------- Validation -----------
         // $request -> validate([
         //     "project_id" => "required | regex : /^(PRJ_[0-9A-Z]{6})$/ " ,
@@ -103,8 +102,8 @@ class TaskController extends Controller
         return " Failed Task .. Empty File" ;
     }
    }
-   // ------------- fn to send failed task to db -------------
 
+   // ------------- fn to send failed task to db (not used) -------------
    private function sendFailedTaskToDb($task_id) {
     Task::where('task_id', $task_id)->update(['ended_at' => Carbon::now() ]);
     Task::where('task_id', $task_id)->update(['started_at' => Carbon::now() ]);
@@ -156,7 +155,7 @@ class TaskController extends Controller
     //     echo $count_line ;
     // }
 
-    // ------------- read file line by line -------------
+    // ------------- read file line by words -------------
     
     private function countWords($file) {
         $count_words = 0 ; 
