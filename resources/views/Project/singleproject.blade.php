@@ -26,10 +26,11 @@
         <tr>
         <td>{{$task->task_id}}</td>
         <td>{{$task->task_type}}</td>
-        <!-- <td>{{$task->occurrences}}</td> -->
         <td>{{($task->result !== 100 && $task->result !== 0 ) ? ($task->occurrences . "*") : ($task->occurrences)}}</td>
         <!-- <td>{{$task->result}}%</td> -->
-        <td>{{($task->result == 100 ) ? ("Pass") :($task->result . "%")    }}</td>
+       
+        <td><?php if($task->result == 100) echo "Pass"; if($task->result == 0 && $task->ended_at != null ) echo "Failed" ;  
+              if($task->result !== 100 && $task->result !== 0) echo $task->result."%"    ?></td>
         <td>{{$task->created_at}}</td>
         <td>{{$task->started_at ?? '-'}}</td>
         <!-- <td>{{$task->ended_at}}</td>    -->
