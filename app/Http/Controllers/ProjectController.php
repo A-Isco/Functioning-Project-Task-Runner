@@ -14,10 +14,16 @@ class ProjectController extends Controller
     // get all projects
     public function get_projects () {
 
+        $user_id = Auth::user()->id ;
         // Return only user's projects
-         $projects = Project::where('user_id', Auth::user()->id)->paginate(2);
+         $projects = Project::where('user_id', $user_id)->paginate(2);
 
-         return view('Project.projects', compact('projects'));
+        foreach ($projects as $project) {
+            $last5_count_lines = Task::where('project_id', $project->project_id)->where('task_type', 'Count lines')
+            ->orderBy('created_at', 'DESC')->get();
+        }
+
+         return view('Project.projects', compact('projects' , 'last5_count_lines'));
         // dd($projects) ; 
       
     }
