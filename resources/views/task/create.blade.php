@@ -9,10 +9,7 @@
 
 <body>
     <div class="nav-container">
-    
-       
-           
-    <div class="li">
+        <div class="li">
                 <div class="font-medium text-base text-gray-800">Welcome {{ Auth::user()->name }}</div>
             </div>
             <div class="li">
@@ -25,9 +22,7 @@
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
-            </div>
-            
- 
+            </div>      
     </div>
 
 <div class="container">
@@ -95,7 +90,7 @@
 
 body {
   /* background-color: lightblue; */
-  background: rgba(0, 128, 0, 0.2) /* Green background with 30% opacity */
+  /* background: rgba(0, 128, 0, 0.2) Green background with 30% opacity */
 
 }
 

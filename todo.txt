@@ -6,7 +6,12 @@
 - A diagram document describing your hosting strategy
 - Application readme detailing the build procedure
  **********************
+
+
  1- creat task view . #done
- 2- nav bar in alll views . 
+ 2- nav bar in alll views . #done
  3- update running project fn . 
+ 6- register link in the login page . 
  4- routes organization .
+ 5- colored circle map .
+ 6- css external .

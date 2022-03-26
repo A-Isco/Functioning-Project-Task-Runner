@@ -8,6 +8,22 @@
     <link rel="stylesheet" href="/css/singleProject.css">
 </head>
 <body>
+<div class="nav-container">
+        <div class="li">
+                <div class="font-medium text-base text-gray-800">Welcome {{ Auth::user()->name }}</div>
+            </div>
+            <div class="li">
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+                </form>
+            </div>      
+    </div>
     <div class="container">
     <h1>Project Name : {{$project_id}}</h1>
     <div class="table-container">
@@ -49,7 +65,7 @@
     
 
     
-    <a href="{{route('projects.all')}}">Back</a>
+    <a class="back-btn" href="{{route('projects.all')}}">Back</a>
     </div>
 </body>
 </html>
@@ -62,6 +78,19 @@
       margin: 0;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
+    .nav-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding: 5px;
+
+}
+
+
+.li {
+    margin: 10px;
+font-size: 20px;}
+
     .container {
         text-align: center;
     }
@@ -75,7 +104,9 @@
     }
 
 
-    a {
+   
+
+    .back-btn {
         margin-top: 20px;
   background-color: #f44336;
   color: white;

@@ -78,6 +78,9 @@ class TaskProcess implements ShouldQueue
         // updating progress and occurrences line by line
         self::updateProgressToDb();
 
+        // updating project status
+        self::updateProjectStatusToDb();
+
        // send finished time to db
         self::updateFinishedDateToDb();
 
@@ -138,7 +141,20 @@ class TaskProcess implements ShouldQueue
 
  }
 
- private function updateFinishedDateToDb() {
+ 
+private function updateStartedDateToDb() {
+
+    $taskID = $this->task_id ;
+    $batch_id = $this->batch_id ;
+    $batch = Bus::findBatch($batch_id); 
+    $processedJobs = $batch->processedJobs();
+
+    if($processedJobs == 1) {
+        Task::where('task_id', $taskID)->update(['started_at' => Carbon::now() ]);
+    }
+}
+
+private function updateFinishedDateToDb() {
 
     $taskID = $this->task_id ;
     $batch_id = $this->batch_id ;
@@ -151,17 +167,30 @@ class TaskProcess implements ShouldQueue
     }
 }
 
-private function updateStartedDateToDb() {
+private function updateProjectStatusToDb() {
 
     $taskID = $this->task_id ;
+
     $batch_id = $this->batch_id ;
     $batch = Bus::findBatch($batch_id); 
-    $processedJobs = $batch->processedJobs();
+    $finished_at = $batch->{'finishedAt'} ;
+    $progress = $batch->progress();
 
-    if($processedJobs == 1) {
-        Task::where('task_id', $taskID)->update(['started_at' => Carbon::now() ]);
+   
+    // if the project is running
+    if($progress !== 100 && $progress !== 0) {
+        $project_id =  Task::where('task_id', $taskID)->first(['project_id'])->project_id ;
+        Project::where('project_id', $project_id)->update(['running' => 'Yes' ]);
     }
+
+    // if the project is not running
+    if($progress == 100 ) {
+        $project_id =  Task::where('task_id', $taskID)->first(['project_id'])->project_id ;
+        Project::where('project_id', $project_id)->update(['running' => 'No' ]);
+    }
+    
 }
+
 
 // ----------- Don't need it , will handled in frontend if occ = 0 -> failed 
 // private function checkFailedTasks() {

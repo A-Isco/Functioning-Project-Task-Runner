@@ -129,10 +129,12 @@ class TaskController extends Controller
         
         fclose($fh) ;
 
-        $batch = Bus::findBatch($batch_id); 
+        // $batch = Bus::findBatch($batch_id); 
+        $project_id =  Task::where('task_id', $task_id)->first(['project_id'])->project_id ;
+        // get(['project_id']);
 
         // return $batch->finished();
-        return $batch_id ;
+        return  dd($project_id);
 
         // echo $count_line ;
     }
