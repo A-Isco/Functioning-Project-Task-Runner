@@ -32,7 +32,7 @@ class ProjectController extends Controller
     // get a tasks of a single project
     public function get_single_project ($project_id) {
 
-        $tasks = Task::where('project_id','=',$project_id)->get();
+        $tasks = Task::where('project_id','=',$project_id)->orderBy('created_at', 'DESC')->get();
         // dd($project) ; 
         return view('Project.singleproject', compact('tasks','project_id'))->render();
         // return "Hello" ;

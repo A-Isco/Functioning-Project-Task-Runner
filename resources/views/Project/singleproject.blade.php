@@ -5,10 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/singleProject.css">
 </head>
 <body>
+    <div class="container">
     <h1>Project Name : {{$project_id}}</h1>
-    <div>
+    <div class="table-container">
     <table>
     <thead>
         <tr class="header">
@@ -39,40 +41,53 @@
     @endforeach
 
     </tbody>
-</table>
+    </table>
 
 
 
     </div>
     
 
-
-    <hr>
+    
     <a href="{{route('projects.all')}}">Back</a>
+    </div>
 </body>
 </html>
 
 
 <style>
+  
      body {
       padding: 0px;
       margin: 0;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
-
-    table {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      border-collapse: collapse;
-      width: 1500px;
-      height: 200px;
-      border: 1px solid #bdc3c7;
-      box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2),
-        -1px -1px 8px rgba(0, 0, 0, 0.2);
-       
+    .container {
+        text-align: center;
     }
+
+    .table-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    
+
+    }
+
+
+    a {
+        margin-top: 20px;
+  background-color: #f44336;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+
+
+   
 
     tr {
       transition: all 0.2s ease-in;
@@ -94,28 +109,38 @@
 
     tr:hover {
       background-color: #f5f5f5;
+      color: black;
       transform: scale(1.02);
       box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2),
         -1px -1px 8px rgba(0, 0, 0, 0.2);
     }
 
-    @media only screen and (max-width: 768px) {
+     */
+
+  
+
+
+
+    /* @media only screen and (max-width: 768px) {
       table {
         width: 90%;
       }
-    }
+    } */
 
-  a:link, a:visited {
-  background-color: #f44336;
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
+  
 
-a:hover, a:active {
-  background-color: red;
-}
+     /* table {
+      /* position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%); */
+      /* border-collapse: collapse;
+      width: 1500px; */
+      /* height: 200px; */
+      /* border: 1px solid #bdc3c7;
+      box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2),
+        -1px -1px 8px rgba(0, 0, 0, 0.2); */
+       
+    /* } */
 
 </style>
