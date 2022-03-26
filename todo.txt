@@ -1,7 +1,12 @@
 - last 5 tasks status of each project . #done
 - front end
+- project running check
 
 - A diagram document describing your software architecture
 - A diagram document describing your hosting strategy
 - Application readme detailing the build procedure
- 
+ **********************
+ 1- creat task view . #done
+ 2- nav bar in alll views . 
+ 3- update running project fn . 
+ 4- routes organization .
