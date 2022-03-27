@@ -2,6 +2,11 @@
     text-align: center;
 }
 
+.map {
+    position: relative;
+    display: flex;
+}
+
 .nav-container {
     display: flex;
     flex-direction: row;

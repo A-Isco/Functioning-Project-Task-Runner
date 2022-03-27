@@ -57,7 +57,7 @@
               <td rowspan="3">{{$project->project_id}}</td>
               <td>Count Words</td>
               <td>
-                <!-- ----------- C-Lines Words ----------------- -->
+                <!-- ----------- Showing last 5 statuses for " Count Words " tasks ----------------- -->
 
                 <?php $last5_count_words = Task::where('project_id', $project->project_id)->where('task_type', 'Count words')
                     ->orderBy('created_at', 'DESC')->take(5)->get();  ?>
@@ -79,7 +79,7 @@
               <td>Count Lines</td>
               <td>
               
-            <!-- ----------- C-Lines Tasks ----------------- -->
+                <!-- ----------- Showing last 5 statuses for " Count Lines " tasks ----------------- -->
                     
             <?php $last5_count_lines = Task::where('project_id', $project->project_id)->where('task_type', 'Count lines')
                         ->orderBy('created_at', 'DESC')->take(5)->get();  ?>
@@ -89,7 +89,7 @@
                     <div class=<?php if($task->result == 100) echo "green-dot" ; 
                     if($task->result == 0 && $task->ended_at != null) echo "red-dot" ;
                     if($task->result !== 100 && $task->result !== 0) echo "blue-dot"; // running
-                    if($task->started_at == null) echo "yellow-dot" ; // didn't start yet
+                    if($task->started_at == null) echo "yellow-dot" ; // have not start yet
                     ?>></div> 
                   
                     @endforeach
@@ -98,7 +98,7 @@
             <tr>
               <td>Count Characters</td>
               <td>
-                   <!-- ----------- C-Lines Characters ----------------- -->
+                <!-- ----------- Showing last 5 statuses for " Count Characters " tasks ----------------- -->
                 <?php $last5_count_characters = Task::where('project_id', $project->project_id)->where('task_type', 'Count characters')
                     ->orderBy('created_at', 'DESC')->take(5)->get();  ?>
 
@@ -126,6 +126,27 @@
       
         {{$projects->render()}}
         <a href="{{ route('task.create') }}" class="create-task">Create Task</a>
+      
+
+        </div>
+
+        <div class="map" style="display: flex;justify-content: center; margin-top: 30px; ">
+          <div class="item" style="display: flex; margin: 20px;" >
+            <div class="green-dot"></div>
+            <div style="margin-left: 10px ;">Task Success</div>
+          </div>
+          <div class="item" style="display: flex; margin: 20px;">
+            <div class="red-dot"></div>
+            <div style="margin-left: 10px ;">Task Failed</div>
+          </div>
+          <div class="item" style="display: flex; margin: 20px;">
+            <div class="blue-dot"></div>
+            <div style="margin-left: 10px ;" >Task is running</div>
+          </div>
+          <div class="item" style="display: flex; margin: 20px;">
+            <div class="yellow-dot"></div>
+            <div style="margin-left: 10px ;">Task is not running yet </div>
+          </div>
         </div>
 
 
@@ -133,132 +154,6 @@
 </body>
 </html>
 
-
-
-
-<style>
-
-/* .container {
-        text-align: center;
-    }
-
-    .nav-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
-    padding: 5px;
-
-}
-
-.li {
-    margin: 10px;
-font-size: 20px;}
-
-
-
-.table-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-
-    
-    }
-
-    h1 {
-      font-weight: 100;
-    }
-
-    table {
-      width: 80%;
-      font-size: 18px;
-      font-weight: bold;
-    
-    }
-
-    tr {
-      transition: all 0.2s ease-in;
-      cursor: pointer;
-      
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .header {
-      background-color: #16a085;
-      color: #fff;
-    }
-
-    tr:hover {
-      background-color: #f5f5f5;
-      color: black;
-      transform: scale(1.02);
-      box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2),
-        -1px -1px 8px rgba(0, 0, 0, 0.2);
-    }
-
-
-
-
-
-    .green-dot {
-  height: 16px;
-  width: 16px;
-  background-color: green;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.red-dot {
-  height: 16px;
-  width: 16px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-
-  
-}
-
-.yellow-dot {
-  height: 16px;
-  width: 16px;
-  background-color: yellow;
-  border-radius: 50%;
-  display: inline-block;
- 
-}
-.blue-dot {
-  height: 16px;
-  width: 16px;
-  background-color: blue;
-  border-radius: 50%;
-  display: inline-block;
- 
-}
- */
-
-/* .loader {
-  border: 16px solid #f3f3f3; 
-  border-top: 16px solid #3498db; 
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-} */
-
-
-
-
-</style>
 
 
 
