@@ -95,6 +95,7 @@ To deploy this project :
 #### GET Register view
 ```http
   GET /register
+  http://localhost/Full-stack-exercise/public/register	
 ```
 
 | Parameter | Type     | Description                |
@@ -114,7 +115,7 @@ To deploy this project :
 #### Post task inputs to the backend
 
 ```http
-  GET /task/store
+  POST /task/store
 ```
 
 | Parameter | Type     | Description                       |
