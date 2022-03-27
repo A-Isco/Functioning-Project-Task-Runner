@@ -1,64 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Full-stack Exercise
 
-## About Laravel
+A functioning project task runner , where useres can creat projects and run tasks .
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Register/Loggin for Users .
+- Creating projects and tasks . 
+- Retrieve user's projects . 
+- Retrieve user's tasks of a specific project .
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## Deployment
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+To deploy this project :
 
-### Premium Partners
+``` Data base
+  - You need a database with required tables , the details about the tables are in a sql database file attached in the git hub repo .
+  - Use the database file attached in the repo you , can import it in php myadmin forexample or any other sql dms .
+  - Then link the application to it using the .env file in the project .
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+  Note : Don't use the migration files to create the database , instead there's a database file in the repo which you can use .
 
-## Contributing
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
+## Documentation
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-> Main Code is written in These files :
+      - routes/web.php 
+      - Models folder 'app/Models'
+         (Project.php , Task.php , User.php) 
+      - Controllers folder  'app/Http/Controllers'
+        (ProjectController.php , TaskController.php , Auth folder) 
+      - Views folder "resources/views"
+        (projects.blade.php , singleproject.blade.php , create.blade.php)
+      - Job Handling : TaskProcecess.php "/app/Jobs/TaskProcecess.php"
 
-## Security Vulnerabilities
+-> Main Routes "Api details in the API Reference section"
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-> User's journy : 
+    - User register and then loggin with username and password .
+	- http://localhost/Full-stack-exercise/public/login .
+	- http://localhost/Full-stack-exercise/public/register .
+    - After loggin user will directed to the creat task view .
+    - In create task view user can input 
+      (project name , task type , uploaded file) 
+      There are three types of tasks : Count lines - Count words - Count characters
+    - After submitting the task User will redirected to all projects view page .
+    - In projects view page user can see all his projects and their status ,
+      and also he can go to project details by click on project's details link . 
+    - In project details view user can see all tasks from that project in a descending order by created date .
+      and can see the details of each task . 
 
-## License
+-> How functionality works :
+    - After submitting the task :
+          - Project will be stored in the projects table if it's a new one .
+          - Task will be stored in the tasks table .
+    - Task handling : (Using Job Queue & Job Batching)
+          - The input file is recieved in the backend to work on it .
+          - Then we will check if the file is empty so it's a failed task if it's not will go to the next step .
+          - A job batch will be dispatche .
+          - Then a while loop will loop through the file line by line .
+          - In each loop "line" it will send it as a job to the job queue in the batch .
+          - After finishing reading from the file it will be closed .
+          - Now we have a batch including jobs for a specific task .
+          - In Job handle :
+            - Each job is working on a single line of the whole task . 
+            - So we apply a procedure of methods that handles each job .
+            - when first job in the batch is started a method used to update the starting date of the task .
+            - For each job and depending on the task type a suitable method is invoked to do the count logic for this job "line" .
+            - The another methode is used to update the progress of the task in the db . 
+            - While the tasks in the batch are running a method is used to update the project status .
+            - after the task "batch" is done a method is used to update finished at column in the database .
+            
+            
+ /login
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API Reference
+
+
+#### GET Login view
+```http
+  GET /login
+  http://localhost/Full-stack-exercise/public/login	
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+
+#### GET Register view
+```http
+  GET /register
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+
+
+
+#### GET Create task view
+```http
+  GET /task/create
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+
+
+#### Post task inputs to the backend
+
+```http
+  GET /task/store
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+
+#### Get All user's projects
+
+```http
+  GET /projects
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+
+
+#### Get All Tasks for a specific project
+
+```http
+  GET /projects/show/{project_id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
+
+
+-> (auth) middlware  is used to deal with authentication and authorization 
+
+
+
